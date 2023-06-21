@@ -44,13 +44,6 @@ stroke$smoking_status <- relevel(stroke$smoking_status, ref = "Sconosciuto",
 stroke$bmi <- as.numeric(stroke$bmi)
 
 
-#eseguo la regressione logistica
-model <- glm(stroke ~ age + hypertension + heart_disease + ever_married
-             + work_type + residence_type + avg_glucose_level + bmi 
-             + smoking_status, data = stroke, family = binomial)
-#risultati
-summary(model)
-
 
 
 
