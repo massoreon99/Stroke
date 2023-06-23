@@ -114,5 +114,48 @@ confusionMatrix(nb_cm, positive = "True")
 
 
 
+# PROVO A BILANCIARE IL TRAINSET
+table(train_cl$stroke) 
+
+# SELEZIONO VOCI STROKE VERE
+true_samples <- train_cl[train_cl$stroke == "True", ]
+
+# SCELGO A CASO GLI STROKE FALSI
+false_samples <- train_cl[train_cl$stroke == "False", ]
+selected_false_samples <- false_samples[sample(nrow(false_samples), 131), ]
+
+# TRAINSET BILANCIATO
+balanced_train <- rbind(true_samples, selected_false_samples)
+
+# DISTRIBUZIONE
+table(balanced_train$stroke)
+
+# CREO ALBERO 
+decision.tree = rpart(stroke ~ ., data = balanced_train, method = 'class')
+draw.tree(decision.tree)
+
+# TESTO L'ALBERO E PREDICO GRUPPO TEST
+st_pred <- predict(decision.tree, test_cl, type = "class")
+# Confusion Matrix
+st_cm <- table(test_cl$stroke, st_pred)
+st_cm
+# VALUTO IL MODELLO
+confusionMatrix(st_cm, positive = "True")
+
+
+
+# USO NAIVE BAYES
+nb <- naiveBayes(stroke ~ ., data = balanced_train)
+nb
+# PREDICO IL GRUPPO TEST
+nb_pred <- predict(nb, newdata = test_cl)
+# Confusion Matrix
+nb_cm <- table(test_cl$stroke, nb_pred)
+nb_cm
+# VALUTO IL MODELLO
+confusionMatrix(nb_cm, positive = "True")
+
+
+
 
 
