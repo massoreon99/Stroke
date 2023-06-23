@@ -356,6 +356,23 @@ ggplot(ratios11, aes(x = heart_disease, y = ratio, fill = heart_disease)) +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5))
 # OSSERVIAMO UNA CORRELAZIONE TRA MALATTIE CARDIACHE E ICTUS
+# OSSERVIAMO UNA CORRELAZIONE TRA MALATTIE CARDIACHE E ICTUS
+# CONTROLLIAMO PER GRUPPI D'ETà
+stroke %>% group_by(heart_disease) %>% summarise(avg_age = mean(age))
+ratios12 <- stroke %>% group_by(age_group, heart_disease, stroke) %>%
+  summarise(count = n()) %>%
+  pivot_wider(names_from = stroke, values_from = count, values_fill = 0) %>%
+  mutate(ratio = `1` / `0`)
+# GRAFICO
+ggplot(ratios12, aes(x = age_group, y = ratio, fill = heart_disease)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  xlab("Age") +
+  ylab("Ratio") +
+  ggtitle("Stroke Ratio by Age Group and Heart Status") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+# PROBLEMI CARDIACI EMERGONO CON L'ETà MA PER GRUPPO D'ETà PORTANO AD UN 
+# PEGGIOR RATIO PER ICTUS
 
 
 
