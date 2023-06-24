@@ -301,7 +301,7 @@ stroke %>%
   ggplot(aes(bmi, avg_stroke, size = count)) +
   geom_point() +
   geom_jitter() +
-  geom_smooth(show.legend = FALSE) +
+  geom_smooth(method='lm', formula= y~x, show.legend = FALSE) +
   labs(x = "BMI", y = "Average Stroke") +
   guides(size = guide_legend(title = "Count")) +  
   theme_minimal()
