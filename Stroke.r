@@ -10,6 +10,9 @@ stroke <- as_tibble(stroke)
 # PULISCO NOME COLONNA RESIDENCE
 stroke <- rename(stroke, residence_type = Residence_type)
 
+stroke <- stroke %>% filter(!(gender == "Other"))
+
+
 
 
 # FATTORIZZAZIONE DELLE COLONNE 
